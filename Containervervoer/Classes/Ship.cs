@@ -51,7 +51,6 @@ namespace Containervervoer.Classes
                 }
             }
 
-
             W = W + containerToAdd.Weight;
 
             if (W > maxWeight)
@@ -70,7 +69,31 @@ namespace Containervervoer.Classes
 
             foreach (var container in containers)
             {
-                container.SetCord(x,y,z);
+                if (checkStack(x, y, container) == false)
+                {
+                    while (checkStack(x, y, container) == false)
+                    {
+                        if (x != width)
+                        {
+                            x++;
+                        }
+                        else
+                        {
+                            x = 1;
+                            y++;
+                        }
+
+                        if (y == length + 1)
+                        {
+                            x = 1;
+                            y = 1;
+                            z++;
+                        }
+                    }
+                }
+
+                container.SetCord(x, y, z);
+
                 if (x != width)
                 {
                     x++;
@@ -88,6 +111,28 @@ namespace Containervervoer.Classes
                     z++;
                 }
             }
+        }
+
+        public bool checkStack(int x, int y, ShipContainer C)
+        {
+            int W = 0;
+            List<ShipContainer> shipContainers = containers.Where(c => c.X == x && c.Y == y).ToList();
+            foreach (var shipContainer in shipContainers)
+            {
+                if (shipContainer.Z != 0)
+                {
+                    W = W + shipContainer.Weight;
+                }
+            }
+
+            W = W + C.Weight;
+
+            if (W > 120)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

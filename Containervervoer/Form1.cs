@@ -19,33 +19,15 @@ namespace Containervervoer
             InitializeComponent();
             containers.Add(new ShipContainer(1, enumContent.Normal));
             containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
+            containers.Add(new ShipContainer(110, enumContent.Normal));
+            containers.Add(new ShipContainer(11, enumContent.Normal));
+            containers.Add(new ShipContainer(11, enumContent.Normal));
+            containers.Add(new ShipContainer(11, enumContent.Normal));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Ship ship = new Ship(100, 5, 3);
+            Ship ship = new Ship(500, 1, 2);
             ship.AddContainer(containers);
             ship.CalCord();
             var containers_ship = ship.Containers;
