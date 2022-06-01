@@ -38,6 +38,7 @@ namespace Containervervoer.Classes
                     containers.Add(container);
                 }
             }
+            containers = containers.OrderBy(c => (int)(c.Content)).ToList();
         }
 
         public bool CheckWeight(ShipContainer containerToAdd)
@@ -61,78 +62,119 @@ namespace Containervervoer.Classes
             return true;
         }
 
-        public void CalCord()
+        public void SetCord()
         {
-            int x = 1;
-            int y = 1;
-            int z = 0;
+            int i = 0;
+
+            while (containers.Where(c => c.X == 0 && c.Y == 0 && c.Z == 0).Count() != 0)
+            {
+                PlaceCoolable(containers[i]);
+                PlaceNormal(containers[i]);
+                PlaceValuble(containers[i]);
+                i++;
+            }
+        }
+
+        public void checkMinWeight()
+        {
+            int w = 0;
 
             foreach (var container in containers)
             {
-                if (checkStack(x, y, container) == false)
-                {
-                    while (checkStack(x, y, container) == false)
-                    {
-                        if (x != width)
-                        {
-                            x++;
-                        }
-                        else
-                        {
-                            x = 1;
-                            y++;
-                        }
+                w = w + container.Weight;
+            }
 
-                        if (y == length + 1)
-                        {
-                            x = 1;
-                            y = 1;
-                            z++;
-                        }
-                    }
+            if (w < (maxWeight / 2))
+            {
+                Console.WriteLine("ship to light");
+            }
+        }
+
+        public void checkWeight_L_R()
+        {
+            double middel = width / 2;
+            double totalWeight = 0;
+
+            foreach (var container in containers)
+            {
+                totalWeight = totalWeight + container.Weight;
+                if (container.X < middel)
+                {
+                    weight_L = weight_L + container.Weight;
                 }
-
-                container.SetCord(x, y, z);
-
-                if (x != width)
+                if (container.X > middel)
                 {
-                    x++;
-                }
-                else
-                {
-                    x = 1;
-                    y++;
-                }
-
-                if (y == length + 1)
-                {
-                    x = 1;
-                    y = 1;
-                    z++;
+                    weight_R = weight_R + container.Weight;
                 }
             }
         }
 
-        public bool checkStack(int x, int y, ShipContainer C)
+        public bool checkStack()
         {
-            int W = 0;
-            List<ShipContainer> shipContainers = containers.Where(c => c.X == x && c.Y == y).ToList();
-            foreach (var shipContainer in shipContainers)
-            {
-                if (shipContainer.Z != 0)
-                {
-                    W = W + shipContainer.Weight;
-                }
-            }
-
-            W = W + C.Weight;
-
-            if (W > 120)
-            {
-                return false;
-            }
-
             return true;
+        }
+        public void PlaceNormal(ShipContainer container)
+        {
+            int x = 1;
+            int y = 1;
+            int z = 0;
+            if (container.Content == enumContent.Normal)
+            {
+                while (containers.Where(c => c.X == x && c.Y == y && c.Z == z).Count() != 0)
+                {
+                    if (x != width)
+                    {
+                        x++;
+                    }
+                    else
+                    {
+                        x = 1;
+                        y++;
+                    }
+
+                    if (y == length + 1)
+                    {
+                        x = 1;
+                        y = 1;
+                        z++;
+                    }
+                }
+
+                container.SetCord(x, y, z);
+            }
+        }
+        public void PlaceCoolable(ShipContainer container)
+        {
+            int x = 1;
+            int y = 1;
+            int z = 0;
+            if (container.Content == enumContent.Coolable)
+            {
+                while (containers.Where(c => c.X == x && c.Y == y && c.Z == z).Count() != 0)
+                {
+                    if (x != width)
+                    {
+                        x++;
+                    }
+                    else
+                    {
+                        x = 1;
+                        z++;
+                    }
+                }
+
+                container.SetCord(x, y, z);
+            }
+        }
+        public void PlaceValuble(ShipContainer container)
+        {
+            int x = 1;
+            int y = 1;
+            int z = 0;
+            if (container.Content == enumContent.Valuble)
+            {
+               
+            }
         }
     }
 }

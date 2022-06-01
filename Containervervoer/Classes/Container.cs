@@ -8,27 +8,30 @@ namespace Containervervoer.Classes
 {
     public enum enumContent
     {
-        Normal,
-        Valuble,
-        Cooable
+        Coolable = 0,
+        Normal = 1,
+        Valuble = 2,
     }
 
     public class ShipContainer
     {
+        private int id;
         private int weight;
         private enumContent content;
         private int x;
         private int y;
         private int z;
 
+        public int ID { get { return id; } }
         public int Weight { get { return weight; } }
         public enumContent Content { get { return content; } }
         public int X { get { return x; } }
         public int Y { get { return y; } }
         public int Z { get { return z; } }
 
-        public ShipContainer(int W, enumContent C)
+        public ShipContainer(int i, int W, enumContent C)
         {
+            id = i;
             weight = W + 4; //weight in tons
             content = C;
         }

@@ -17,30 +17,53 @@ namespace Containervervoer
         public Form1()
         {
             InitializeComponent();
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(1, enumContent.Normal));
-            containers.Add(new ShipContainer(110, enumContent.Normal));
-            containers.Add(new ShipContainer(11, enumContent.Normal));
-            containers.Add(new ShipContainer(11, enumContent.Normal));
-            containers.Add(new ShipContainer(11, enumContent.Normal));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Ship ship = new Ship(500, 1, 2);
-            ship.AddContainer(containers);
-            ship.CalCord();
-            var containers_ship = ship.Containers;
+            ShipPanel.Controls.Clear();
+            containers.Clear();
 
-            foreach (var container in containers_ship)
+            Random rng = new Random();
+            for (int i = 0; i < 10; i++)
             {
-                int x = (container.X * 150) - (container.Z * 5);
-                int y = (container.Y * 150) - (container.Z * 5);
+                switch (rng.Next(2))
+                {
+                    case 0:
+                        containers.Add(new ShipContainer(i, 1, enumContent.Normal));
+                        break;
+                    case 1:
+                        containers.Add(new ShipContainer(i, 1, enumContent.Coolable));
+                        break;
+                    case 2:
+                        containers.Add(new ShipContainer(i, 1, enumContent.Valuble));
+                        break;
+                }
+            }
+
+            Ship ship = new Ship(500, 3, 2);
+            ship.AddContainer(containers);
+            ship.SetCord();
+
+            foreach (var container in ship.Containers)
+            {
+                int x = (container.X * 150) + (container.Z * 5);
+                int y = (container.Y * 150) + (container.Z * 5);
                 ListBox listBox = new ListBox();
+                if (container.Content == enumContent.Coolable)
+                {
+                    listBox.BackColor = Color.Aqua;
+                }
+                if (container.Content == enumContent.Valuble)
+                {
+                    listBox.BackColor = Color.Gold;
+                }
                 listBox.Location = new System.Drawing.Point(x, y);
                 listBox.Size = new System.Drawing.Size(50, 100);
+                
 
                 ShipPanel.Controls.Add(listBox);
+                listBox.BringToFront();
             }
         }
     }
