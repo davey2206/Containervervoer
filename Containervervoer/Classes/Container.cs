@@ -22,12 +22,18 @@ namespace Containervervoer.Classes
         private int y;
         private int z;
 
-        public int ID { get { return id; } }
-        public int Weight { get { return weight; } }
-        public enumContent Content { get { return content; } }
-        public int X { get { return x; } }
-        public int Y { get { return y; } }
-        public int Z { get { return z; } }
+        public int ID
+        { get { return id; } }
+        public int Weight
+        { get { return weight; } }
+        public enumContent Content
+        { get { return content; } }
+        public int X
+        { get { return x; } }
+        public int Y
+        { get { return y; } }
+        public int Z
+        { get { return z; } }
 
         public ShipContainer(int i, int W, enumContent C)
         {
@@ -35,7 +41,7 @@ namespace Containervervoer.Classes
             weight = W + 4; //weight in tons
             content = C;
         }
-        
+
         public void SetCord(int corX, int corY, int corZ)
         {
             x = corX;
