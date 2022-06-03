@@ -15,12 +15,23 @@ namespace Containervervoer.Classes
         private int width;
         private List<ShipContainer> containers = new List<ShipContainer>();
 
-        public int MaxWeight { get { return maxWeight; } }
-        public int Weight_L { get { return weight_L; } }
-        public int Weight_R { get { return weight_R; } }
-        public int Length { get { return length; } }
-        public int Width { get { return width; } }
-        public List<ShipContainer> Containers { get { return containers; } }
+        public int MaxWeight
+        { get { return maxWeight; } }
+
+        public int Weight_L
+        { get { return weight_L; } }
+
+        public int Weight_R
+        { get { return weight_R; } }
+
+        public int Length
+        { get { return length; } }
+
+        public int Width
+        { get { return width; } }
+
+        public List<ShipContainer> Containers
+        { get { return containers; } }
 
         public Ship(int mWeight, int L, int W)
         {
@@ -68,6 +79,11 @@ namespace Containervervoer.Classes
 
             while (containers.Where(c => c.X == 0 && c.Y == 0 && c.Z == 0).Count() != 0)
             {
+                if (containers.Where(c => c.Content == enumContent.Valuble).Count() > (width * 2))
+                {
+                    Console.WriteLine("ship niet mogelijk");
+                    break;
+                }
                 PlaceCoolable(containers[i]);
                 PlaceNormal(containers[i]);
                 PlaceValuble(containers[i]);
@@ -113,6 +129,7 @@ namespace Containervervoer.Classes
         {
             return true;
         }
+
         public void PlaceNormal(ShipContainer container)
         {
             int x = 1;
@@ -143,6 +160,7 @@ namespace Containervervoer.Classes
                 container.SetCord(x, y, z);
             }
         }
+
         public void PlaceCoolable(ShipContainer container)
         {
             int x = 1;
@@ -166,14 +184,52 @@ namespace Containervervoer.Classes
                 container.SetCord(x, y, z);
             }
         }
+
         public void PlaceValuble(ShipContainer container)
         {
             int x = 1;
             int y = 1;
             int z = 0;
+            int count = 0;
+            bool back = false;
             if (container.Content == enumContent.Valuble)
             {
-               
+                while (containers.Where(c => c.X == x && c.Y == y && c.Z == z).Count() != 0)
+                {
+                    count = 0;
+                    for (int i = 0; i < width; i++)
+                    {
+                        if (containers.Where(c => c.X == x + i && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
+                        {
+                            count++;
+                        }
+
+                        if (count == width)
+                        {
+                            back = true;
+                        }
+                        else
+                        {
+                            back = false;
+                        }
+                    }
+                    if (back)
+                    {
+                        y = length;
+                        z = 0;
+                    }
+                    if (x != width)
+                    {
+                        x++;
+                    }
+                    else
+                    {
+                        x = 1;
+                        z++;
+                    }
+                }
+
+                container.SetCord(x, y, z);
             }
         }
     }

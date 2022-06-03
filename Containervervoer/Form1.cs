@@ -13,7 +13,8 @@ namespace Containervervoer
 {
     public partial class Form1 : Form
     {
-        List<ShipContainer> containers = new List<ShipContainer>();
+        private List<ShipContainer> containers = new List<ShipContainer>();
+
         public Form1()
         {
             InitializeComponent();
@@ -27,14 +28,16 @@ namespace Containervervoer
             Random rng = new Random();
             for (int i = 0; i < 10; i++)
             {
-                switch (rng.Next(2))
+                switch (rng.Next(3))
                 {
                     case 0:
                         containers.Add(new ShipContainer(i, 1, enumContent.Normal));
                         break;
+
                     case 1:
                         containers.Add(new ShipContainer(i, 1, enumContent.Coolable));
                         break;
+
                     case 2:
                         containers.Add(new ShipContainer(i, 1, enumContent.Valuble));
                         break;
@@ -60,7 +63,6 @@ namespace Containervervoer
                 }
                 listBox.Location = new System.Drawing.Point(x, y);
                 listBox.Size = new System.Drawing.Size(50, 100);
-                
 
                 ShipPanel.Controls.Add(listBox);
                 listBox.BringToFront();
