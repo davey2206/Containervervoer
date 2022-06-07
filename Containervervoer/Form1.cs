@@ -28,7 +28,7 @@ namespace Containervervoer
             Random rng = new Random();
             for (int i = 0; i < 15; i++)
             {
-                switch (rng.Next(2))
+                switch (rng.Next(3))
                 {
                     case 0:
                         containers.Add(new ShipContainer(i, 26, enumContent.Normal));

@@ -127,6 +127,25 @@ namespace Containervervoer.Classes
             }
         }
 
+        public bool checkStack(int x, int y, ShipContainer containerToAdd)
+        {
+            int w = 0;
+            foreach (var container in containers)
+            {
+                if (container.X == x && container.Y == y)
+                {
+                    w = w + container.Weight;
+                }
+            }
+            w = w + containerToAdd.Weight;
+
+            if (w > 120)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool checkStacks(ShipContainer containerToAdd)
         {
             int x = 1;
@@ -162,6 +181,23 @@ namespace Containervervoer.Classes
                         end = false;
                     }
                 }
+                else if (containerToAdd.Content == enumContent.Valuble)
+                {
+                    if (x != width)
+                    {
+                        x++;
+                    }
+                    else
+                    {
+                        x = 1;
+                        y = length;
+                    }
+
+                    if (y == length && x == width)
+                    {
+                        end = false;
+                    }
+                }
 
                 int w = 0;
                 foreach (var container in containers)
@@ -189,6 +225,13 @@ namespace Containervervoer.Classes
             else if (containerToAdd.Content == enumContent.Coolable)
             {
                 if ((count + 1) == width)
+                {
+                    return true;
+                }
+            }
+            else if (containerToAdd.Content == enumContent.Valuble)
+            {
+                if ((count + 1) == (width * 2))
                 {
                     return true;
                 }
@@ -309,14 +352,21 @@ namespace Containervervoer.Classes
                         y = length;
                         z = 0;
                     }
-                    if (x != width)
+                    if (checkStack(x, y, container))
                     {
                         x++;
                     }
                     else
                     {
-                        x = 1;
-                        z++;
+                        if (x != width)
+                        {
+                            x++;
+                        }
+                        else
+                        {
+                            x = 1;
+                            z++;
+                        }
                     }
                 }
 
