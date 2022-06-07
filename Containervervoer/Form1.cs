@@ -26,32 +26,37 @@ namespace Containervervoer
             containers.Clear();
 
             Random rng = new Random();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 15; i++)
             {
-                switch (rng.Next(3))
+                switch (rng.Next(2))
                 {
                     case 0:
-                        containers.Add(new ShipContainer(i, 1, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, 26, enumContent.Normal));
                         break;
 
                     case 1:
-                        containers.Add(new ShipContainer(i, 1, enumContent.Coolable));
+                        containers.Add(new ShipContainer(i, 26, enumContent.Coolable));
                         break;
 
                     case 2:
-                        containers.Add(new ShipContainer(i, 1, enumContent.Valuble));
+                        containers.Add(new ShipContainer(i, 26, enumContent.Valuble));
                         break;
                 }
             }
 
             Ship ship = new Ship(500, 3, 2);
             ship.AddContainer(containers);
-            ship.SetCord();
-
+            int j = 0;
             foreach (var container in ship.Containers)
             {
                 int x = (container.X * 150) + (container.Z * 5);
                 int y = (container.Y * 150) + (container.Z * 5);
+                if (x == 0 && y == 0)
+                {
+                    j = j + 5;
+                    x = j;
+                    y = j;
+                }
                 ListBox listBox = new ListBox();
                 if (container.Content == enumContent.Coolable)
                 {

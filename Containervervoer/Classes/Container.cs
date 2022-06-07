@@ -24,14 +24,19 @@ namespace Containervervoer.Classes
 
         public int ID
         { get { return id; } }
+
         public int Weight
         { get { return weight; } }
+
         public enumContent Content
         { get { return content; } }
+
         public int X
         { get { return x; } }
+
         public int Y
         { get { return y; } }
+
         public int Z
         { get { return z; } }
 
@@ -40,6 +45,15 @@ namespace Containervervoer.Classes
             id = i;
             weight = W + 4; //weight in tons
             content = C;
+        }
+
+        public bool CheckWeight()
+        {
+            if (weight > 30)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void SetCord(int corX, int corY, int corZ)
