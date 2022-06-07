@@ -46,11 +46,21 @@ namespace Containervervoer
 
             Ship ship = new Ship(500, 3, 2);
             ship.AddContainer(containers);
+            if (ship.TextLog != null)
+            {
+                MessageBox.Show(ship.TextLog);
+            }
+
             int j = 0;
             foreach (var container in ship.Containers)
             {
                 int x = (container.X * 150) + (container.Z * 5);
                 int y = (container.Y * 150) + (container.Z * 5);
+                if (container.Z == 100)
+                {
+                    x = 0;
+                    y = 0;
+                }
                 if (x == 0 && y == 0)
                 {
                     j = j + 5;

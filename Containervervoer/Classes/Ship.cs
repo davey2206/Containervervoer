@@ -14,6 +14,7 @@ namespace Containervervoer.Classes
         private int length;
         private int width;
         private List<ShipContainer> containers = new List<ShipContainer>();
+        private string textLog;
 
         public int MaxWeight
         { get { return maxWeight; } }
@@ -33,6 +34,9 @@ namespace Containervervoer.Classes
         public List<ShipContainer> Containers
         { get { return containers; } }
 
+        public string TextLog
+        { get { return textLog; } }
+
         public Ship(int mWeight, int L, int W)
         {
             maxWeight = mWeight;
@@ -48,7 +52,7 @@ namespace Containervervoer.Classes
                 {
                     if (container.CheckWeight())
                     {
-                        Console.WriteLine("container to heavy");
+                        textLog = textLog + " container to heavy";
                         break;
                     }
 
@@ -59,11 +63,11 @@ namespace Containervervoer.Classes
 
             if (containers.Count() < containersToAdd.Count())
             {
-                Console.WriteLine("containers too heavy");
+                textLog = textLog + " containers too heavy";
             }
             else if (checkMinWeight())
             {
-                Console.WriteLine("ship to light");
+                textLog = textLog + " ship to light";
             }
             else
             {
@@ -248,13 +252,13 @@ namespace Containervervoer.Classes
             {
                 if (containers.Where(c => c.Content == enumContent.Valuble).Count() > (width * 2))
                 {
-                    Console.WriteLine("to many Valuble containers");
+                    textLog = textLog + " to many Valuble containers";
                     break;
                 }
 
                 if (checkStacks(containers[i]))
                 {
-                    Console.WriteLine("cant place anymore containers");
+                    textLog = textLog + " cant place anymore containers";
                     break;
                 }
                 PlaceCoolable(containers[i]);
@@ -366,6 +370,36 @@ namespace Containervervoer.Classes
                         {
                             x = 1;
                             z++;
+                        }
+                    }
+
+                    if (x > width)
+                    {
+                        x = 1;
+                        y = length;
+                        count = 0;
+                        bool stop = false;
+                        for (int i = 0; i < width; i++)
+                        {
+                            if (containers.Where(c => c.X == x + i && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
+                            {
+                                count++;
+                            }
+
+                            if (count == width)
+                            {
+                                stop = true;
+                            }
+                            else
+                            {
+                                stop = false;
+                            }
+                        }
+                        if (stop)
+                        {
+                            z = 100;
+                            textLog = textLog + " cant place anymore Valuble containers";
+                            break;
                         }
                     }
                 }
