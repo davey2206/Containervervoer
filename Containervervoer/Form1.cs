@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,30 +27,38 @@ namespace Containervervoer
             containers.Clear();
 
             Random rng = new Random();
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 40; i++)
             {
-                switch (rng.Next(3))
+                switch (rng.Next(6))
                 {
                     case 0:
                         containers.Add(new ShipContainer(i, 26, enumContent.Normal));
                         break;
 
                     case 1:
-                        containers.Add(new ShipContainer(i, 26, enumContent.Coolable));
+                        containers.Add(new ShipContainer(i, 26, enumContent.Normal));
                         break;
 
                     case 2:
+                        containers.Add(new ShipContainer(i, 26, enumContent.Normal));
+                        break;
+
+                    case 3:
+                        containers.Add(new ShipContainer(i, 26, enumContent.Normal));
+                        break;
+
+                    case 4:
+                        containers.Add(new ShipContainer(i, 26, enumContent.Coolable));
+                        break;
+
+                    case 5:
                         containers.Add(new ShipContainer(i, 26, enumContent.Valuble));
                         break;
                 }
             }
 
-            Ship ship = new Ship(500, 3, 2);
+            Ship ship = new Ship(1200, 4, 3);
             ship.AddContainer(containers);
-            if (ship.TextLog != null)
-            {
-                MessageBox.Show(ship.TextLog);
-            }
 
             int j = 0;
             foreach (var container in ship.Containers)
@@ -81,6 +90,13 @@ namespace Containervervoer
 
                 ShipPanel.Controls.Add(listBox);
                 listBox.BringToFront();
+
+                Thread.Sleep(50);
+            }
+
+            if (ship.TextLog != null)
+            {
+                MessageBox.Show(ship.TextLog);
             }
         }
     }
