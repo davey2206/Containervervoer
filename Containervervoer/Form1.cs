@@ -25,39 +25,41 @@ namespace Containervervoer
         {
             ShipPanel.Controls.Clear();
             containers.Clear();
+            containers.Add(new ShipContainer(41, 26, enumContent.Valuble));
+            containers.Add(new ShipContainer(42, 1, enumContent.Valuble));
 
             Random rng = new Random();
             for (int i = 0; i < 40; i++)
             {
-                switch (rng.Next(6))
+                switch (rng.Next(5))
                 {
                     case 0:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(1), enumContent.Normal));
                         break;
 
                     case 1:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(1), enumContent.Normal));
                         break;
 
                     case 2:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(1), enumContent.Normal));
                         break;
 
                     case 3:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(1), enumContent.Normal));
                         break;
 
                     case 4:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Coolable));
+                        containers.Add(new ShipContainer(i, rng.Next(1), enumContent.Coolable));
                         break;
 
                     case 5:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Valuble));
+                        containers.Add(new ShipContainer(i, rng.Next(1), enumContent.Valuble));
                         break;
                 }
             }
 
-            Ship ship = new Ship(1200, 4, 3);
+            Ship ship = new Ship(300, 4, 2);
             ship.AddContainer(containers);
 
             int j = 0;
@@ -91,7 +93,7 @@ namespace Containervervoer
                 ShipPanel.Controls.Add(listBox);
                 listBox.BringToFront();
 
-                Thread.Sleep(50);
+                Thread.Sleep(10);
             }
 
             if (ship.TextLog != null)
@@ -101,9 +103,8 @@ namespace Containervervoer
 
             if (ship.TextDifference != null)
             {
-                label1.Text = ship.TextDifference.ToString();
+                label1.Text = ship.TextDifference;
             }
-
         }
     }
 }

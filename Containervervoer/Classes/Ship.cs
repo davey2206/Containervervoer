@@ -46,7 +46,6 @@ namespace Containervervoer.Classes
             length = L;
             width = W;
         }
-
         public void AddContainer(List<ShipContainer> containersToAdd)
         {
             foreach (var container in containersToAdd)
@@ -168,7 +167,61 @@ namespace Containervervoer.Classes
             int y = 1;
             int z = 0;
 
+            int R = (int)Math.Round(middel) + 1;
+            int L = (int)Math.Round(middel) - 1;
 
+            if ((int)Math.Round(middel) == 1)
+            {
+                R = 2;
+                L = 1;
+            }
+
+            if (weight_L > weight_R)
+            {
+                x = R;
+                if (checkStack(x, y, container))
+                {
+                    x++;
+                    if (x >= width)
+                    {
+                        y++;
+                        x = R;
+                    }
+                }
+
+                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y).ToList())
+                {
+                    z = shipContainer.Z + 1;
+                    shipContainer.SetCord(x, y, z);
+                }
+
+                z = 0;
+                container.SetCord(x, y, z);
+            }
+            else
+            {
+                x = L;
+                if (checkStack(x, y, container))
+                {
+                    x--;
+                    if (x <= 1)
+                    {
+                        y++;
+                        x = L;
+                    }
+                }
+                else
+                {
+                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y).ToList())
+                    {
+                        z = shipContainer.Z + 1;
+                        shipContainer.SetCord(x, y, z);
+                    }
+                }
+                z = 0;
+                container.SetCord(x, y, z);
+                Console.WriteLine(x + " " + y + " " + z);
+            }
         }
 
         public bool checkStack(int x, int y, ShipContainer containerToAdd)
@@ -183,7 +236,7 @@ namespace Containervervoer.Classes
             }
             w = w + containerToAdd.Weight;
 
-            if (w > 120)
+            if (w > 60)
             {
                 return true;
             }
@@ -307,7 +360,10 @@ namespace Containervervoer.Classes
                 i++;
             }
 
-            balance();
+            if (width != 1)
+            {
+                balance();
+            }
             containers = containers.OrderBy(c => c.Z).ToList();
         }
 
