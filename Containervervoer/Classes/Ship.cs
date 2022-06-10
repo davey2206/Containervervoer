@@ -15,6 +15,7 @@ namespace Containervervoer.Classes
         private int width;
         private List<ShipContainer> containers = new List<ShipContainer>();
         private string textLog;
+        private string textDifference;
 
         public int MaxWeight
         { get { return maxWeight; } }
@@ -36,6 +37,8 @@ namespace Containervervoer.Classes
 
         public string TextLog
         { get { return textLog; } }
+        public string TextDifference
+        { get { return textDifference; } }
 
         public Ship(int mWeight, int L, int W)
         {
@@ -112,23 +115,60 @@ namespace Containervervoer.Classes
             return false;
         }
 
-        public void checkWeight_L_R()
+        public bool checkWeight_L_R()
         {
-            double middel = width / 2;
+            weight_L = 0;
+            weight_R = 0;
             double totalWeight = 0;
-
+            double middel = (double)width / 2;
             foreach (var container in containers)
             {
                 totalWeight = totalWeight + container.Weight;
-                if (container.X < middel)
+                if (container.X < Math.Round(middel))
                 {
                     weight_L = weight_L + container.Weight;
                 }
-                if (container.X > middel)
+                if (container.X > Math.Round(middel))
                 {
                     weight_R = weight_R + container.Weight;
                 }
             }
+
+            double difference = Math.Abs(weight_L - weight_R);
+            double percentDifference = ((double)100 / totalWeight) * difference;
+            percentDifference = Math.Round(percentDifference, 1);
+            textDifference = percentDifference.ToString() + " % verschil";
+
+            if (percentDifference > 20)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public void balance()
+        {
+            foreach (var container in containers)
+            {
+                if (checkWeight_L_R() == false)
+                {
+                    if (container.Content == enumContent.Normal)
+                    {
+                        balanceNormal(container);
+                    }
+                }
+            }
+        }
+
+        public void balanceNormal(ShipContainer container)
+        {
+            double middel = (double)width / 2;
+            int x = 1;
+            int y = 1;
+            int z = 0;
+
+
         }
 
         public bool checkStack(int x, int y, ShipContainer containerToAdd)
@@ -266,6 +306,9 @@ namespace Containervervoer.Classes
                 PlaceValuble(containers[i]);
                 i++;
             }
+
+            balance();
+            containers = containers.OrderBy(c => c.Z).ToList();
         }
 
         public void PlaceNormal(ShipContainer container)

@@ -32,27 +32,27 @@ namespace Containervervoer
                 switch (rng.Next(6))
                 {
                     case 0:
-                        containers.Add(new ShipContainer(i, 26, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
 
                     case 1:
-                        containers.Add(new ShipContainer(i, 26, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
 
                     case 2:
-                        containers.Add(new ShipContainer(i, 26, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
 
                     case 3:
-                        containers.Add(new ShipContainer(i, 26, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
 
                     case 4:
-                        containers.Add(new ShipContainer(i, 26, enumContent.Coolable));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Coolable));
                         break;
 
                     case 5:
-                        containers.Add(new ShipContainer(i, 26, enumContent.Valuble));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Valuble));
                         break;
                 }
             }
@@ -98,6 +98,12 @@ namespace Containervervoer
             {
                 MessageBox.Show(ship.TextLog);
             }
+
+            if (ship.TextDifference != null)
+            {
+                label1.Text = ship.TextDifference.ToString();
+            }
+
         }
     }
 }
