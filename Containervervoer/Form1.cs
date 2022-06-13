@@ -25,37 +25,34 @@ namespace Containervervoer
         {
             ShipPanel.Controls.Clear();
             containers.Clear();
-            containers.Add(new ShipContainer(41, 1, enumContent.Valuble));
-            containers.Add(new ShipContainer(41, 26, enumContent.Valuble));
-            containers.Add(new ShipContainer(41, 26, enumContent.Valuble));
 
             Random rng = new Random();
             for (int i = 0; i < 40; i++)
             {
-                switch (rng.Next(5))
+                switch (rng.Next(6))
                 {
                     case 0:
-                        containers.Add(new ShipContainer(i, 10, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
 
                     case 1:
-                        containers.Add(new ShipContainer(i, 10, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
 
                     case 2:
-                        containers.Add(new ShipContainer(i, 10, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
 
                     case 3:
-                        containers.Add(new ShipContainer(i, 10, enumContent.Normal));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
 
                     case 4:
-                        containers.Add(new ShipContainer(i, 10, enumContent.Coolable));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Coolable));
                         break;
 
                     case 5:
-                        containers.Add(new ShipContainer(i, 26, enumContent.Valuble));
+                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Valuble));
                         break;
                 }
             }

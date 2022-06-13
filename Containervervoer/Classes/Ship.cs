@@ -158,10 +158,90 @@ namespace Containervervoer.Classes
                     {
                         balanceNormal(container);
                     }
+                    if (container.Content == enumContent.Coolable)
+                    {
+                        balanceCoolable(container);
+                    }
                     if (container.Content == enumContent.Valuble)
                     {
                         balanceValuble(container);
                     }
+                }
+            }
+        }
+
+        public void balanceCoolable(ShipContainer container)
+        {
+            double middel = (double)width / 2;
+            int x = 1;
+            int y = 1;
+            int z = 0;
+            bool stop = false;
+
+            int R = (int)Math.Round(middel) + 1;
+            int L = (int)Math.Round(middel) - 1;
+
+            if (width == 2)
+            {
+                R = 2;
+                L = 1;
+            }
+
+            if (weight_L > weight_R)
+            {
+                x = R;
+                if (checkStack(x, y, container))
+                {
+                    x++;
+                    if (x >= width)
+                    {
+                        stop = true;
+                    }
+                }
+                else
+                {
+                    if (stop == false)
+                    {
+                        foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+                        {
+                            z = shipContainer.Z + 1;
+                            shipContainer.SetCord(x, y, z);
+                        }
+                    }
+                }
+
+                z = 0;
+                if (stop == false)
+                {
+                    container.SetCord(x, y, z);
+                }
+            }
+            else
+            {
+                x = L;
+                if (checkStack(x, y, container))
+                {
+                    x--;
+                    if (x <= 1)
+                    {
+                        stop = true;
+                    }
+                }
+                else
+                {
+                    if (stop == false)
+                    {
+                        foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+                        {
+                            z = shipContainer.Z + 1;
+                            shipContainer.SetCord(x, y, z);
+                        }
+                    }
+                }
+                z = 0;
+                if (stop == false)
+                {
+                    container.SetCord(x, y, z);
                 }
             }
         }
@@ -198,11 +278,13 @@ namespace Containervervoer.Classes
                         x = R;
                     }
                 }
-
-                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+                else
                 {
-                    z = shipContainer.Z + 1;
-                    shipContainer.SetCord(x, y, z);
+                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+                    {
+                        z = shipContainer.Z + 1;
+                        shipContainer.SetCord(x, y, z);
+                    }
                 }
 
                 z = 0;
@@ -265,10 +347,13 @@ namespace Containervervoer.Classes
                         x = R;
                     }
                 }
-                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+                else
                 {
-                    z = shipContainer.Z + 1;
-                    shipContainer.SetCord(x, y, z);
+                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+                    {
+                        z = shipContainer.Z + 1;
+                        shipContainer.SetCord(x, y, z);
+                    }
                 }
 
                 z = 0;
@@ -403,7 +488,7 @@ namespace Containervervoer.Classes
             }
             else if (containerToAdd.Content == enumContent.Valuble)
             {
-                if ((count + 1) == (width * 2))
+                if (count == (width * 2))
                 {
                     return true;
                 }
