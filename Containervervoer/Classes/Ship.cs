@@ -37,6 +37,7 @@ namespace Containervervoer.Classes
 
         public string TextLog
         { get { return textLog; } }
+
         public string TextDifference
         { get { return textDifference; } }
 
@@ -46,6 +47,7 @@ namespace Containervervoer.Classes
             length = L;
             width = W;
         }
+
         public void AddContainer(List<ShipContainer> containersToAdd)
         {
             foreach (var container in containersToAdd)
@@ -123,7 +125,7 @@ namespace Containervervoer.Classes
             foreach (var container in containers)
             {
                 totalWeight = totalWeight + container.Weight;
-                if (container.X < Math.Round(middel))
+                if (container.X <= Math.Round(middel))
                 {
                     weight_L = weight_L + container.Weight;
                 }
@@ -170,7 +172,7 @@ namespace Containervervoer.Classes
             int R = (int)Math.Round(middel) + 1;
             int L = (int)Math.Round(middel) - 1;
 
-            if ((int)Math.Round(middel) == 1)
+            if (width == 2)
             {
                 R = 2;
                 L = 1;
@@ -236,7 +238,7 @@ namespace Containervervoer.Classes
             }
             w = w + containerToAdd.Weight;
 
-            if (w > 60)
+            if (w > 120)
             {
                 return true;
             }
@@ -251,6 +253,21 @@ namespace Containervervoer.Classes
             bool end = true;
             while (end)
             {
+                int w = 0;
+                foreach (var container in containers)
+                {
+                    if (container.X == x && container.Y == y)
+                    {
+                        w = w + container.Weight;
+                    }
+                }
+                w = w + containerToAdd.Weight;
+
+                if (w > 120 || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
+                {
+                    count++;
+                }
+
                 if (containerToAdd.Content == enumContent.Normal)
                 {
                     if (x != width)
@@ -294,21 +311,6 @@ namespace Containervervoer.Classes
                     {
                         end = false;
                     }
-                }
-
-                int w = 0;
-                foreach (var container in containers)
-                {
-                    if (container.X == x && container.Y == y)
-                    {
-                        w = w + container.Weight;
-                    }
-                }
-                w = w + containerToAdd.Weight;
-
-                if (w > 120)
-                {
-                    count++;
                 }
             }
 
@@ -360,7 +362,7 @@ namespace Containervervoer.Classes
                 i++;
             }
 
-            if (width != 1)
+            if (width != 1 && textLog == null)
             {
                 balance();
             }
