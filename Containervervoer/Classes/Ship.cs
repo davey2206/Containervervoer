@@ -125,7 +125,7 @@ namespace Containervervoer.Classes
             foreach (var container in containers)
             {
                 totalWeight = totalWeight + container.Weight;
-                if (container.X <= Math.Round(middel))
+                if (container.X < Math.Round(middel))
                 {
                     weight_L = weight_L + container.Weight;
                 }
@@ -390,7 +390,7 @@ namespace Containervervoer.Classes
             }
             w = w + containerToAdd.Weight;
 
-            if (w > 100)
+            if (w > 120)
             {
                 return true;
             }
@@ -415,7 +415,7 @@ namespace Containervervoer.Classes
                 }
                 w = w + containerToAdd.Weight;
 
-                if (w > 100 || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
+                if (w > 120 || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
                 {
                     count++;
                 }

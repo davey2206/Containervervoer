@@ -27,7 +27,7 @@ namespace Containervervoer
             containers.Clear();
 
             Random rng = new Random();
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 34; i++)
             {
                 switch (rng.Next(6))
                 {
@@ -92,7 +92,7 @@ namespace Containervervoer
                 listBox.BringToFront();
                 listBox.Items.Add(container.Weight.ToString());
 
-                Thread.Sleep(10);
+                //Thread.Sleep(10);
             }
 
             if (ship.TextLog != null)
