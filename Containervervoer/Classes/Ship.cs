@@ -190,23 +190,21 @@ namespace Containervervoer.Classes
             if (weight_L > weight_R)
             {
                 x = R;
-                if (checkStack(x, y, container))
+                while (checkStack(x, y, container))
                 {
                     x++;
                     if (x >= width)
                     {
                         stop = true;
+                        break;
                     }
                 }
-                else
+                if (stop == false)
                 {
-                    if (stop == false)
+                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
                     {
-                        foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                        {
-                            z = shipContainer.Z + 1;
-                            shipContainer.SetCord(x, y, z);
-                        }
+                        z = shipContainer.Z + 1;
+                        shipContainer.SetCord(x, y, z);
                     }
                 }
 
@@ -219,23 +217,21 @@ namespace Containervervoer.Classes
             else
             {
                 x = L;
-                if (checkStack(x, y, container))
+                while (checkStack(x, y, container))
                 {
                     x--;
                     if (x <= 1)
                     {
                         stop = true;
+                        break;
                     }
                 }
-                else
+                if (stop == false)
                 {
-                    if (stop == false)
+                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
                     {
-                        foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                        {
-                            z = shipContainer.Z + 1;
-                            shipContainer.SetCord(x, y, z);
-                        }
+                        z = shipContainer.Z + 1;
+                        shipContainer.SetCord(x, y, z);
                     }
                 }
                 z = 0;
@@ -265,7 +261,7 @@ namespace Containervervoer.Classes
             if (weight_L > weight_R)
             {
                 x = R;
-                if (checkStack(x, y, container) || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
+                while (checkStack(x, y, container) || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
                 {
                     x++;
                     if (x >= width)
@@ -273,18 +269,16 @@ namespace Containervervoer.Classes
                         if (y == length)
                         {
                             textLog = textLog + " cant balance";
+                            break;
                         }
                         y = length;
                         x = R;
                     }
                 }
-                else
+                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
                 {
-                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                    {
-                        z = shipContainer.Z + 1;
-                        shipContainer.SetCord(x, y, z);
-                    }
+                    z = shipContainer.Z + 1;
+                    shipContainer.SetCord(x, y, z);
                 }
 
                 z = 0;
@@ -293,7 +287,7 @@ namespace Containervervoer.Classes
             else
             {
                 x = L;
-                if (checkStack(x, y, container) || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
+                while (checkStack(x, y, container) || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
                 {
                     x--;
                     if (x <= 1)
@@ -301,18 +295,16 @@ namespace Containervervoer.Classes
                         if (y == length)
                         {
                             textLog = textLog + " cant balance";
+                            break;
                         }
                         y = length;
                         x = L;
                     }
                 }
-                else
+                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
                 {
-                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                    {
-                        z = shipContainer.Z + 1;
-                        shipContainer.SetCord(x, y, z);
-                    }
+                    z = shipContainer.Z + 1;
+                    shipContainer.SetCord(x, y, z);
                 }
                 z = 0;
                 container.SetCord(x, y, z);
@@ -338,22 +330,23 @@ namespace Containervervoer.Classes
             if (weight_L > weight_R)
             {
                 x = R;
-                if (checkStack(x, y, container))
+                while (checkStack(x, y, container))
                 {
                     x++;
                     if (x >= width)
                     {
+                        if (y == length)
+                        {
+                            break;
+                        }
                         y++;
                         x = R;
                     }
                 }
-                else
+                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
                 {
-                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                    {
-                        z = shipContainer.Z + 1;
-                        shipContainer.SetCord(x, y, z);
-                    }
+                    z = shipContainer.Z + 1;
+                    shipContainer.SetCord(x, y, z);
                 }
 
                 z = 0;
@@ -362,22 +355,23 @@ namespace Containervervoer.Classes
             else
             {
                 x = L;
-                if (checkStack(x, y, container))
+                while (checkStack(x, y, container))
                 {
                     x--;
                     if (x <= 1)
                     {
+                        if (y == length)
+                        {
+                            break;
+                        }
                         y++;
                         x = L;
                     }
                 }
-                else
+                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
                 {
-                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                    {
-                        z = shipContainer.Z + 1;
-                        shipContainer.SetCord(x, y, z);
-                    }
+                    z = shipContainer.Z + 1;
+                    shipContainer.SetCord(x, y, z);
                 }
                 z = 0;
                 container.SetCord(x, y, z);
@@ -396,7 +390,7 @@ namespace Containervervoer.Classes
             }
             w = w + containerToAdd.Weight;
 
-            if (w > 120)
+            if (w > 100)
             {
                 return true;
             }
@@ -421,7 +415,7 @@ namespace Containervervoer.Classes
                 }
                 w = w + containerToAdd.Weight;
 
-                if (w > 120 || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
+                if (w > 100 || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
                 {
                     count++;
                 }
@@ -523,6 +517,7 @@ namespace Containervervoer.Classes
             if (width != 1 && textLog == null)
             {
                 balance();
+                toGround();
             }
             containers = containers.OrderBy(c => c.Z).ToList();
         }
@@ -664,6 +659,32 @@ namespace Containervervoer.Classes
                 }
 
                 container.SetCord(x, y, z);
+            }
+        }
+
+        public void toGround()
+        {
+            int times = width * length;
+            int x = 1;
+            int y = 1;
+            int z = 0;
+            for (int i = 0; i < times; i++)
+            {
+                z = 0;
+                foreach (var container in containers.Where(c => c.X == x && c.Y == y).ToList())
+                {
+                    container.SetCord(x, y, z);
+                    z++;
+                }
+                if (x != width)
+                {
+                    x++;
+                }
+                else
+                {
+                    x = 1;
+                    y++;
+                }
             }
         }
     }
