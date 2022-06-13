@@ -125,13 +125,27 @@ namespace Containervervoer.Classes
             foreach (var container in containers)
             {
                 totalWeight = totalWeight + container.Weight;
-                if (container.X < Math.Round(middel))
+                if (width == 2)
                 {
-                    weight_L = weight_L + container.Weight;
+                    if (container.X == 1)
+                    {
+                        weight_L = weight_L + container.Weight;
+                    }
+                    if (container.X == 2)
+                    {
+                        weight_R = weight_R + container.Weight;
+                    }
                 }
-                if (container.X > Math.Round(middel))
+                else
                 {
-                    weight_R = weight_R + container.Weight;
+                    if (container.X < Math.Ceiling(middel))
+                    {
+                        weight_L = weight_L + container.Weight;
+                    }
+                    if (container.X > Math.Ceiling(middel))
+                    {
+                        weight_R = weight_R + container.Weight;
+                    }
                 }
             }
 
@@ -178,8 +192,8 @@ namespace Containervervoer.Classes
             int z = 0;
             bool stop = false;
 
-            int R = (int)Math.Round(middel) + 1;
-            int L = (int)Math.Round(middel) - 1;
+            int R = (int)Math.Ceiling(middel) + 1;
+            int L = (int)Math.Ceiling(middel) - 1;
 
             if (width == 2)
             {
@@ -249,8 +263,8 @@ namespace Containervervoer.Classes
             int y = 1;
             int z = 0;
 
-            int R = (int)Math.Round(middel) + 1;
-            int L = (int)Math.Round(middel) - 1;
+            int R = (int)Math.Ceiling(middel) + 1;
+            int L = (int)Math.Ceiling(middel) - 1;
 
             if (width == 2)
             {
@@ -318,8 +332,8 @@ namespace Containervervoer.Classes
             int y = 1;
             int z = 0;
 
-            int R = (int)Math.Round(middel) + 1;
-            int L = (int)Math.Round(middel) - 1;
+            int R = (int)Math.Ceiling(middel) + 1;
+            int L = (int)Math.Ceiling(middel) - 1;
 
             if (width == 2)
             {

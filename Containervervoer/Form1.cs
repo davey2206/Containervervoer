@@ -27,7 +27,7 @@ namespace Containervervoer
             containers.Clear();
 
             Random rng = new Random();
-            for (int i = 0; i < 34; i++)
+            for (int i = 0; i < 40; i++)
             {
                 switch (rng.Next(6))
                 {
@@ -57,7 +57,7 @@ namespace Containervervoer
                 }
             }
 
-            Ship ship = new Ship(800, 4, 3);
+            Ship ship = new Ship(1200, 4, 3);
             ship.AddContainer(containers);
 
             int j = 0;
