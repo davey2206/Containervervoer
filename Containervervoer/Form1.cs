@@ -32,17 +32,8 @@ namespace Containervervoer
                 switch (rng.Next(6))
                 {
                     case 0:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
-                        break;
-
                     case 1:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
-                        break;
-
                     case 2:
-                        containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
-                        break;
-
                     case 3:
                         containers.Add(new ShipContainer(i, rng.Next(26), enumContent.Normal));
                         break;
@@ -92,7 +83,7 @@ namespace Containervervoer
                 listBox.BringToFront();
                 listBox.Items.Add(container.Weight.ToString());
 
-                //Thread.Sleep(10);
+                Thread.Sleep(10);
             }
 
             if (ship.TextLog != null)
