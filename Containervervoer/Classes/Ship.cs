@@ -184,7 +184,7 @@ namespace Containervervoer.Classes
             }
         }
 
-        public void balanceCoolable(ShipContainer container)
+        public void balanceCoolableHelper(bool direction, ShipContainer container)
         {
             double middel = (double)width / 2;
             int x = 1;
@@ -200,132 +200,129 @@ namespace Containervervoer.Classes
                 R = 2;
                 L = 1;
             }
-
-            if (weight_L > weight_R)
+            if (direction)
             {
-                x = R;
-                while (checkStack(x, y, container))
-                {
-                    x++;
-                    if (x >= width)
-                    {
-                        stop = true;
-                        break;
-                    }
-                }
-                if (stop == false)
-                {
-                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                    {
-                        z = shipContainer.Z + 1;
-                        shipContainer.SetCord(x, y, z);
-                    }
-                }
-
-                z = 0;
-                if (stop == false)
-                {
-                    container.SetCord(x, y, z);
-                }
+                x = L;
             }
             else
             {
-                x = L;
-                while (checkStack(x, y, container))
+                x = R;
+            }
+
+            while (checkStack(x, y, container))
+            {
+                if (direction)
                 {
                     x--;
-                    if (x <= 1)
-                    {
-                        stop = true;
-                        break;
-                    }
                 }
-                if (stop == false)
+                else
                 {
-                    foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                    {
-                        z = shipContainer.Z + 1;
-                        shipContainer.SetCord(x, y, z);
-                    }
+                    x++;
                 }
-                z = 0;
-                if (stop == false)
+
+                if (x >= width)
                 {
-                    container.SetCord(x, y, z);
+                    stop = true;
+                    break;
                 }
             }
+            if (stop == false)
+            {
+                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+                {
+                    z = shipContainer.Z + 1;
+                    shipContainer.SetCord(x, y, z);
+                }
+            }
+
+            z = 0;
+            if (stop == false)
+            {
+                container.SetCord(x, y, z);
+            }
+        }
+
+        public void balanceCoolable(ShipContainer container)
+        {
+            if (weight_L > weight_R)
+            {
+                balanceCoolableHelper(false, container);
+            }
+            else
+            {
+                balanceCoolableHelper(true, container);
+            }
+        }
+
+        public void balanceValubleHelper(bool direction, ShipContainer container)
+        {
+            double middel = (double)width / 2;
+            int x = 1;
+            int y = 1;
+            int z = 0;
+
+            int R = (int)Math.Ceiling(middel) + 1;
+            int L = (int)Math.Ceiling(middel) - 1;
+
+            if (width == 2)
+            {
+                R = 2;
+                L = 1;
+            }
+
+            if (direction)
+            {
+                x = L;
+            }
+            else
+            {
+                x = R;
+            }
+
+            while (checkStack(x, y, container) || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
+            {
+                if (direction)
+                {
+                    x--;
+                }
+                else
+                {
+                    x++;
+                }
+                if (x >= width)
+                {
+                    if (y == length)
+                    {
+                        textLog = textLog + " cant balance";
+                        break;
+                    }
+                    y = length;
+                    x = R;
+                }
+            }
+            foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+            {
+                z = shipContainer.Z + 1;
+                shipContainer.SetCord(x, y, z);
+            }
+
+            z = 0;
+            container.SetCord(x, y, z);
         }
 
         public void balanceValuble(ShipContainer container)
         {
-            double middel = (double)width / 2;
-            int x = 1;
-            int y = 1;
-            int z = 0;
-
-            int R = (int)Math.Ceiling(middel) + 1;
-            int L = (int)Math.Ceiling(middel) - 1;
-
-            if (width == 2)
-            {
-                R = 2;
-                L = 1;
-            }
-
             if (weight_L > weight_R)
             {
-                x = R;
-                while (checkStack(x, y, container) || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
-                {
-                    x++;
-                    if (x >= width)
-                    {
-                        if (y == length)
-                        {
-                            textLog = textLog + " cant balance";
-                            break;
-                        }
-                        y = length;
-                        x = R;
-                    }
-                }
-                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                {
-                    z = shipContainer.Z + 1;
-                    shipContainer.SetCord(x, y, z);
-                }
-
-                z = 0;
-                container.SetCord(x, y, z);
+                balanceValubleHelper(false, container);
             }
             else
             {
-                x = L;
-                while (checkStack(x, y, container) || containers.Where(c => c.X == x && c.Y == y && c.Content == enumContent.Valuble).Count() == 1)
-                {
-                    x--;
-                    if (x <= 1)
-                    {
-                        if (y == length)
-                        {
-                            textLog = textLog + " cant balance";
-                            break;
-                        }
-                        y = length;
-                        x = L;
-                    }
-                }
-                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                {
-                    z = shipContainer.Z + 1;
-                    shipContainer.SetCord(x, y, z);
-                }
-                z = 0;
-                container.SetCord(x, y, z);
+                balanceValubleHelper(true, container);
             }
         }
 
-        public void balanceNormal(ShipContainer container)
+        public void balanceNormalHelper(bool direction, ShipContainer container)
         {
             double middel = (double)width / 2;
             int x = 1;
@@ -341,54 +338,53 @@ namespace Containervervoer.Classes
                 L = 1;
             }
 
-            if (weight_L > weight_R)
+            if (direction)
             {
-                x = R;
-                while (checkStack(x, y, container))
-                {
-                    x++;
-                    if (x >= width)
-                    {
-                        if (y == length)
-                        {
-                            break;
-                        }
-                        y++;
-                        x = R;
-                    }
-                }
-                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
-                {
-                    z = shipContainer.Z + 1;
-                    shipContainer.SetCord(x, y, z);
-                }
-
-                z = 0;
-                container.SetCord(x, y, z);
+                x = L;
             }
             else
             {
-                x = L;
-                while (checkStack(x, y, container))
+                x = R;
+            }
+            while (checkStack(x, y, container))
+            {
+                if (direction)
                 {
                     x--;
-                    if (x <= 1)
-                    {
-                        if (y == length)
-                        {
-                            break;
-                        }
-                        y++;
-                        x = L;
-                    }
                 }
-                foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+                else
                 {
-                    z = shipContainer.Z + 1;
-                    shipContainer.SetCord(x, y, z);
+                    x++;
                 }
-                z = 0;
-                container.SetCord(x, y, z);
+                if (x >= width)
+                {
+                    if (y == length)
+                    {
+                        break;
+                    }
+                    y++;
+                    x = R;
+                }
+            }
+            foreach (var shipContainer in containers.Where(c => c.X == x && c.Y == y && c.Z == z).ToList())
+            {
+                z = shipContainer.Z + 1;
+                shipContainer.SetCord(x, y, z);
+            }
+
+            z = 0;
+            container.SetCord(x, y, z);
+        }
+
+        public void balanceNormal(ShipContainer container)
+        {
+            if (weight_L > weight_R)
+            {
+                balanceNormalHelper(false, container);
+            }
+            else
+            {
+                balanceNormalHelper(true, container);
             }
         }
 
