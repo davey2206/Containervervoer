@@ -14,29 +14,39 @@ namespace Containervervoer.Test
         {
             //arrange
             Ship ship = new Ship(40, 2, 2);
-            Ship ship2 = new Ship(40, 2, 2);
             List<ShipContainer> containers = new List<ShipContainer>();
-            List<ShipContainer> containers2 = new List<ShipContainer>();
 
             containers.Add(new ShipContainer(1, 26, enumContent.Normal));
-            containers2.Add(new ShipContainer(1, 30, enumContent.Normal));
 
             //Act
             ship.AddContainer(containers);
-            ship2.AddContainer(containers2);
 
             //Assert
             Assert.IsNull(ship.TextLog);
-            Assert.IsNotNull(ship2.TextLog);
         }
+
+        [TestMethod]
+        public void MaxWeightContainerBADTest()
+        {
+            //arrange
+            Ship ship = new Ship(40, 2, 2);
+            List<ShipContainer> containers = new List<ShipContainer>();
+
+            containers.Add(new ShipContainer(1, 30, enumContent.Normal));
+
+            //Act
+            ship.AddContainer(containers);
+
+            //Assert
+            Assert.IsNotNull(ship.TextLog);
+        }
+
         [TestMethod]
         public void MaxWeightShipTest()
         {
             //arrange
             Ship ship = new Ship(120, 2, 2);
-            Ship ship2 = new Ship(120, 2, 2);
             List<ShipContainer> containers = new List<ShipContainer>();
-            List<ShipContainer> containers2 = new List<ShipContainer>();
 
             for (int i = 0; i < 5; i++)
             {
@@ -44,40 +54,72 @@ namespace Containervervoer.Test
                 {
                     containers.Add(new ShipContainer(i, 26, enumContent.Normal));
                 }
-                containers2.Add(new ShipContainer(i, 26, enumContent.Normal));
             }
 
             //Act
             ship.AddContainer(containers);
-            ship2.AddContainer(containers2);
 
             //Assert
             Assert.IsNull(ship.TextLog);
-            Assert.IsNotNull(ship2.TextLog);
         }
+
+        [TestMethod]
+        public void MaxWeightShipBADTest()
+        {
+            //arrange
+            Ship ship = new Ship(120, 2, 2);
+            List<ShipContainer> containers = new List<ShipContainer>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                containers.Add(new ShipContainer(i, 26, enumContent.Normal));
+            }
+
+            //Act
+            ship.AddContainer(containers);
+
+            //Assert
+            Assert.IsNotNull(ship.TextLog);
+        }
+
         [TestMethod]
         public void MinWeightShipTest()
         {
             //arrange
             Ship ship = new Ship(120, 2, 2);
-            Ship ship2 = new Ship(120, 2, 2);
             List<ShipContainer> containers = new List<ShipContainer>();
-            List<ShipContainer> containers2 = new List<ShipContainer>();
 
             for (int i = 0; i < 4; i++)
             {
                 containers.Add(new ShipContainer(i, 26, enumContent.Normal));
-                containers2.Add(new ShipContainer(i, 1, enumContent.Normal));
             }
 
             //Act
             ship.AddContainer(containers);
-            ship2.AddContainer(containers2);
 
             //Assert
             Assert.IsNull(ship.TextLog);
-            Assert.IsNotNull(ship2.TextLog);
         }
+
+        [TestMethod]
+        public void MinWeightShipBADTest()
+        {
+            //arrange
+            Ship ship = new Ship(120, 2, 2);
+            List<ShipContainer> containers = new List<ShipContainer>();
+
+            for (int i = 0; i < 4; i++)
+            {
+                containers.Add(new ShipContainer(i, 1, enumContent.Normal));
+            }
+
+            //Act
+            ship.AddContainer(containers);
+
+            //Assert
+            Assert.IsNotNull(ship.TextLog);
+        }
+
         [TestMethod]
         public void ValubleStackTest()
         {
@@ -110,6 +152,7 @@ namespace Containervervoer.Test
                 }
             }
         }
+
         [TestMethod]
         public void ValublePlacementTest()
         {
@@ -140,6 +183,7 @@ namespace Containervervoer.Test
                 Assert.IsFalse(ship.Containers.Where(c => c.X == container.X && c.Y == container.Y && c.Content == enumContent.Valuble).Count() > 1);
             }
         }
+
         [TestMethod]
         public void CoolablePlacementTest()
         {
@@ -161,6 +205,7 @@ namespace Containervervoer.Test
                 Assert.AreEqual(container.Y, 1);
             }
         }
+
         [TestMethod]
         public void BalanceTest()
         {
